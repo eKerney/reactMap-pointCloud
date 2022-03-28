@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,6 +26,54 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+      
+      .control-panel {
+        position: absolute;
+        top: 0;
+        border-bottom-left-radius: 0;
+        width: 480px;
+        height: 500px;
+        background: #21272c;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        padding: 12px 24px;
+        margin: 20px;
+        line-height: 1; 
+        color: #bbbbce;
+        /* text-transform: uppercase; */
+        outline: none;
+        overflow: hidden;
+        background: #21272c;
+        /* background: #ffffff00; */
+        text-align: center;
+        padding-top: 0px;
+        /* transform: scale(0.8);
+        transform-origin: top left; */
+      }
+      .tooltip.interactive {pointer-events: all; background: #000000; color: #444; overflow-y: auto;
+        width: 1000px;
+        height: 600px;
+        overflow: hidden;
+        margin: -10px;
+        margin-bottom: -17px;
+        margin-right: -20px;
+      
+      }
+      iframe {
+        position: static;
+        width: 100vw;
+        height: 100vh;
+        border: none;
+        /* background: #21272c; */
+        transform: scale(0.55);
+        transform-origin: top left;
+        margin-left: -40px;
+        padding-left: -30px;
+        overflow: auto;
+        background: #ffffff00;        
+        
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
