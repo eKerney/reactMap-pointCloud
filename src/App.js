@@ -172,15 +172,16 @@ const weatherData = 'https://raw.githubusercontent.com/eKerney/reactMap-pointClo
 
     const weatherHex = new H3HexagonLayer({
       id: "weatherDataHex",
-      data: 'https://raw.githubusercontent.com/eKerney/reactMap-pointCloud/main/data/weatherPolyData.json',
+      data: 'https://raw.githubusercontent.com/eKerney/reactMap-pointCloud/main/data/weatherHexData.json',
       pickable: true,
       wireframe: false,
       filled: true,
       extruded: true,
-      elevationScale: 10000,
+      elevationScale: 1,
       getHexagon: (d) => d.properties.h3_index,
-      getFillColor: [255, 100, 100],
-      getElevation: 10000,
+      getElevation: d => ((d.properties.windSpeed * d.properties.temperature)/d.properties.precipChance) * 200,
+      getFillColor: d => [(500 - (d.properties.temperature**4/100000)), ((d.properties.precipChance**4/100)), 0], 
+      getLineColor: [255, 255, 255],
       opacity: 0.5,
     });
 
@@ -212,9 +213,9 @@ const weatherData = 'https://raw.githubusercontent.com/eKerney/reactMap-pointClo
         getLineColor: [255, 255, 255],
         pickable: true
       });
-
-    //const layers = [weatherGeo1, weatherGeo2, pointCloudData, radioHex];
-    const layers = [weatherHex];
+    const layers = [weatherGeo1, weatherGeo2, pointCloudData, weatherHex];
+    //const layers = [weatherHex];
+    //const layers = [weatherGeo1];
     const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZXJpY2tlcm5leSIsImEiOiJja2FjbTNiMXcwMXp1MzVueDFjdDNtcW92In0.LW0qdB-2FmA3UK51M67fAQ';
     const [viewState, setViewState] = React.useState({
       longitude: -97.5,
@@ -227,10 +228,12 @@ const weatherData = 'https://raw.githubusercontent.com/eKerney/reactMap-pointClo
     if (!info.object) {
       return null;
     }
+    console.log(info.object.properties);
     return`\
-    ${info.object.desc}
-    ${info.object.id}
-    ${info.object.elevation} elev m.`;
+    precipChance: ${info.object.properties.precipChance}
+    windSpeed: ${info.object.properties.windSpeed}
+    temperature: ${info.object.properties.temperature} 
+    h3_index: ${info.object.properties.h3_index}`;
   };
   const [hoverInfo, setHoverInfo] = useState();  
   const deckRef = useRef(null);
