@@ -14,28 +14,26 @@ import ControlPanel from './control-panel';
 import {PointCloudLayer} from '@deck.gl/layers';
 import {COORDINATE_SYSTEM, OrbitView, LinearInterpolator} from '@deck.gl/core';
 import {LASLoader} from '@loaders.gl/las';
-import {load} from '@loaders.gl/core';
+import {load, registerLoaders} from '@loaders.gl/core';
+registerLoaders([LASLoader]);
 
 const HEX_DATA = "https://raw.githubusercontent.com/chriszrc/foss4g-2021-react-mapbox/main/deck-layers-map/public/data/hex_radio_coverage.json";
 const stationData = 'https://raw.githubusercontent.com/eKerney/reactMapTest/main/src/noaaAptEditedCol.csv';
 const testData = 'https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/3d-heatmap/heatmap-data.csv';
 const lazData = 'https://rockyweb.usgs.gov/vdelivery/Datasets/Staged/Elevation/LPC/Projects/MI_WayneCo_2009/laz/MI_WayneCo_2009_000883.laz'
-const lasData = '/home/pi/dev/node/react/reactMapPointCloud/react-map-pointcloud/src/ca2018_wildfire_ql2_Job716930.las'
+const lasData = 'https://github.com/eKerney/reactMap-pointCloud/raw/main/src/ca2018_wildfire_ql2_Job716930.las'
 
   export default function App() {
-    const getData = async (lasData) => {
-      const data = await load(lasData, LASLoader, );
-      return data;
-    };  
-    
-    useEffect( () => {
-      console.log(getData());
-    })
 
     const pointCloudLAS = new PointCloudLayer({
       id: 'PointCloudLayer2',
       data: lasData,
       loaders: [LASLoader],
+      loadOptions: {
+        fetch: (lasData, {
+          mode: 'no-cors',
+        })
+      },
       /* props from PointCloudLayer class */
       // getColor: d => d.color,
       // getNormal: d => d.normal,
@@ -209,7 +207,7 @@ const lasData = '/home/pi/dev/node/react/reactMapPointCloud/react-map-pointcloud
       ref={deckRef}
       initialViewState={viewState} 
       controller={true}
-      layers={[pointCloudLAS]}
+      layers={[pointCloudData]}
       ContextProvider={MapContext.Provider}
       onClick={({ x, y, coordinate, object}) => {
         // TODO: figure out how to get rid of extra click event
